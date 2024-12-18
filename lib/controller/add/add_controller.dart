@@ -25,17 +25,21 @@ class AddController extends GetxController {
       return;
     }
     DateTime dateTime = DateTime.parse(time);
-    if(dateTime.isBefore(DateTime.now()) || dateTime==DateTime.now()){
-            Get.snackbar("Todo", 'Selected time is not valid');
-            return;
-          }
+    if (dateTime.isBefore(DateTime.now()) || dateTime == DateTime.now()) {
+      Get.snackbar("Todo", 'Selected time is not valid');
+      return;
+    }
 
-    TodoModel todo = TodoModel(title: titleController.text, time: dateTime.toString());
+    TodoModel todo =
+        TodoModel(title: titleController.text, time: dateTime.toString());
 
     await Hive.box<TodoModel>('todoBox').add(todo);
     Get.find<MainController>().onRefresh();
     Get.log("Notification  ----- ${todo.title} $dateTime");
-    LocalNotificationService().scheduleNotification(title: "Todo", body: todo.title, schedule: dateTime);
+    LocalNotificationService().scheduleNotification(
+        title: "${dateTime.hour}:${dateTime.minute}",
+        body: todo.title,
+        schedule: dateTime);
     titleController.clear();
     time = '';
     Get.back();
@@ -47,5 +51,4 @@ class AddController extends GetxController {
     await todoToDelete.delete();
     await Get.find<MainController>().onRefresh();
   }
-
 }

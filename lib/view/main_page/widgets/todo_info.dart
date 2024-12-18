@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_project/controller/add/add_controller.dart';
 import 'package:todo_project/data/model/todo_model.dart';
 
@@ -31,7 +32,7 @@ class TodoInfo extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 14,
                           color: Colors.black)),
-                  Text(todo.time.toString(),
+                  Text(DateFormat("HH:mm  dd.MM.yy").format(DateTime.parse(todo.time)),
                       style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black)),
